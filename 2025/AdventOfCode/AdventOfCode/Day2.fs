@@ -80,3 +80,95 @@ let run (input: string list) =
         printfn "%A" (invalidsInRange min max)
     
     List.sum invalids
+
+module Part2 =
+    
+    type WindowInfo = { windowSize: int; maxSegment: uint64; minSegment: uint64 }
+    with
+        static member create windowSize =
+            let max = (pow10 1UL windowSize) - 1UL
+            let min = (pow10 1UL (windowSize - 1))
+            { windowSize = windowSize; maxSegment = max; minSegment = min }
+    
+    let rec nextInvalidId (window: WindowInfo) (segments: uint64 list) =
+        match segments with
+        | []
+        | [_] -> [window.minSegment; window.minSegment]
+        | first::rest ->
+            let rec tryAdvance first rest =
+                match rest with
+                | [] -> Some []
+                | r::rs when r = first ->
+                    tryAdvance first rs
+                    |> Option.map (fun res -> r :: res)
+                | r::rs when r < first ->
+                    Some(List.map (fun _ -> first) rest)
+                | _ -> None
+                
+            match tryAdvance first rest with
+            | Some rest -> first :: rest
+            | None ->
+                if first < window.maxSegment then
+                    let nf = first + 1UL
+                    nf :: List.map (fun _ -> nf) rest
+                else
+                    window.minSegment :: window.minSegment :: List.map (fun _ -> window.minSegment) rest
+    
+    let toNumber (window: WindowInfo) (segments: uint64 list) =
+        let mult = window.maxSegment + 1UL
+        List.fold (fun acc next -> acc * mult + next) 0UL segments
+        
+    let toSegments (window: WindowInfo) (value: uint64) =
+        let mult = window.maxSegment + 1UL
+        let unfold1 v = if v = 0UL then None else Some(v % mult, v / mult)
+        let parts = List.rev (List.unfold unfold1 value)
+        
+        match parts with
+        | [] -> [window.minSegment]
+        | f::r when f >= window.minSegment -> parts
+        | f::r ->
+            parts |> List.map (fun _ -> window.minSegment)
+    
+    let rec invalidIdsInRange (window: WindowInfo) (min: uint64) (max: uint64) =
+        let segments = toSegments window min
+        let next = nextInvalidId window segments
+        let nextV = toNumber window next
+        if nextV <= max then
+            nextV :: invalidIdsInRange window (nextV + 1UL) max
+        else
+            []
+        
+        
+    let isSillyNumber (n: uint64) =
+        let chrs = List.ofSeq (string n)
+        let windows = [1..List.length chrs]
+        let testWindow chrs window =
+            let windowed = List.chunkBySize window chrs
+            match windowed with
+            | []
+            | [_] -> false
+            | f::r -> List.forall ((=)f)r
+        List.exists (testWindow chrs) windows
+    let debug_bruteforce minv maxv =
+        let vals = [minv..maxv]
+        vals |> List.where isSillyNumber
+    
+        
+    let run2 (input: string list) =
+        let parsed = input |> List.where ((<>) "") |> List.map parseLine
+               
+        let mutable sum = 0UL
+        for (min, max) in parsed do
+            printfn "%i-%i" min max
+            let maxWindowSize = log10 max
+            let windows = [1..maxWindowSize+1] |> List.map WindowInfo.create
+            let invalids =
+                windows
+                |> List.collect (fun w -> invalidIdsInRange w min max)
+                |> List.distinct
+                       
+            for i in invalids do
+                printfn "  -> %i" i
+                sum <- sum + i
+            
+        sum
