@@ -8,10 +8,9 @@
     <ItemGroup>
         <Compile Include="Common\Point.fs" />
         <Compile Include="Common\Parsing.fs" />
-        <Compile Include="Day1.fs" />
-        <Compile Include="Day2.fs" />
-        <Compile Include="Day3.fs" />
-        <Compile Include="Day4.fs" />
+        <Compile Include="Common\Digits.fs" />
+        <Compile Include="Common\Counts.fs" />
+        <Compile Include="Day11.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 
