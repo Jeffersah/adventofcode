@@ -83,3 +83,18 @@ module Pathing =
                                 openSet.Enqueue(newEntry, newEntry.totalCost)
                         run openSet closedSet
         run openSet closedSet
+        
+    let inline floodFill<'node, 'cost
+        when 'node: comparison
+        and 'cost: comparison
+        and 'cost : (static member (+) : ('cost * 'cost) -> 'cost)
+        and ('cost or int) : (static member op_Explicit : int -> 'cost)>
+        (initial: 'node list)
+        (getSteps: 'node -> struct('cost * 'node) seq) =
+            let { visited = visited } =
+                findPath<'node, unit, 'cost>
+                    initial
+                    (getSteps >> Seq.map (fun (struct(cost, node)) -> struct(cost, (), node)))
+                    (fun _ -> GenericMath.ofInt<'cost> 0)
+                    (fun _ -> false)
+            visited
