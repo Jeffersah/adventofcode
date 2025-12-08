@@ -13,6 +13,7 @@
         <Compile Include="Parsing.fs" />
         <Compile Include="Digits.fs" />
         <Compile Include="Counts.fs" />
+        <Compile Include="Pathing.fs" />
     </ItemGroup>
 
 </Project>
