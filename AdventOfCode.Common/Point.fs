@@ -29,6 +29,7 @@ module Point =
     
     let both predicate { x = x; y = y } = predicate x && predicate y
     let either predicate { x = x; y = y } = predicate x || predicate y
+    let componentwise fn a b = { x = fn a.x b.x; y = fn a.y b.y }
         
     let inline negate { x = x; y = y } = { x = -x; y = -y }
     let inline add { x = x; y = y } { x = x2; y = y2 } = { x = x + x2; y = y + y2 }
@@ -47,4 +48,3 @@ module Point =
             { x = a.x * b.x; y = a.y * b.y }
         let inline ( /* ) (a: 'a Point, b: 'a Point) =
             { x = a.x / b.x; y = a.y / b.y }
-        let componentwise fn a b = { x = fn a.x b.x; y = fn a.y b.y }

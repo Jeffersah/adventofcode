@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="GenericMath.fs" />
+        <Compile Include="Point.fs" />
+        <Compile Include="Range.fs" />
+        <Compile Include="Parsing.fs" />
+        <Compile Include="Digits.fs" />
+        <Compile Include="Counts.fs" />
+    </ItemGroup>
+
+</Project>

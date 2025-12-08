@@ -6,12 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Common\Point.fs" />
-        <Compile Include="Common\Parsing.fs" />
-        <Compile Include="Common\Digits.fs" />
-        <Compile Include="Common\Counts.fs" />
         <Compile Include="Day11.fs" />
         <Compile Include="Program.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\AdventOfCode.Common\AdventOfCode.Common.fsproj" />
     </ItemGroup>
 
 </Project>
