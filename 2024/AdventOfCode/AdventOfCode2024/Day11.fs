@@ -2,7 +2,6 @@ module AdventOfCode.Day11
 
 open System.Collections.Generic
 open AdventOfCode.Common
-open AdventOfCode2024.Common
 
 
 let stepOne (stone: uint64) =

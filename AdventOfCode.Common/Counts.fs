@@ -1,4 +1,4 @@
-namespace AdventOfCode2024.Common
+namespace AdventOfCode.Common
 
 type Counts<'t when 't : comparison> =
     private Counts of Map<'t, uint64>
@@ -28,10 +28,24 @@ module Counts =
     let toMap (Counts c) = c
     let ofMap = Counts
     
+    let union a (Counts b) =
+        b
+        |> Map.fold (fun a element count -> addMany count element a) a
+    
     let toCountSeq (Counts c) = Map.toSeq c
     let toSeq (Counts c) = Map.toSeq c |> Seq.collect (fun (v, c) -> Seq.replicate (int c) v)
     
     let ofSeq s = Seq.fold (fun c s -> add s c) empty s
+    
+    let setOperation (fn: 'a Set -> 'x -> 'a Set) (secondArg: 'x) (Counts c) =
+        let keySet = Set.ofSeq c.Keys
+        let outSet = fn keySet secondArg
+        Counts(
+            outSet
+            |> Set.toSeq
+            |> Seq.map (fun e -> e, Map.tryFind e c |> Option.defaultValue 0UL)
+            |> Map.ofSeq
+        )
     
     let map fn counts =
         toCountSeq counts

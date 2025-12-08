@@ -26,6 +26,11 @@ module Point =
     let ret v =  create v v
     let mapX fn { x = x; y = y } = { x = fn x; y = y }
     let mapY fn { x = x; y = y } = { x = x; y = fn y }
+    let X { x = x } = x
+    let Y { y = y } = y
+    
+    let inline manhattanLen { x = x; y = y } = abs x + abs y
+    let inline actualLen { x = x; y = y } = double x * double x + double y * double y
     
     let both predicate { x = x; y = y } = predicate x && predicate y
     let either predicate { x = x; y = y } = predicate x || predicate y

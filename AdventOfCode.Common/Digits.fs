@@ -1,4 +1,4 @@
-namespace AdventOfCode2024.Common
+namespace AdventOfCode.Common
 
 type Digits =
     static member digitsLE (x: uint64) =

@@ -8,6 +8,7 @@
     <ItemGroup>
         <Compile Include="GenericMath.fs" />
         <Compile Include="Point.fs" />
+        <Compile Include="Point3.fs" />
         <Compile Include="Range.fs" />
         <Compile Include="Parsing.fs" />
         <Compile Include="Digits.fs" />
