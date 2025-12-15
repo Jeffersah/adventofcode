@@ -20,4 +20,16 @@ module Rect =
     
     let inline contains { x = x; y = y; w = w; h = h } (pt: 'a Point) =
         pt.x >= x && pt.x < x + w && pt.y >= y && pt.y < y + h
+        
+    let inline intersection a b =
+        let ax, ay = xaxis a, yaxis a
+        let bx, by = xaxis b, yaxis b
+        Range.intersection ax bx
+        |> Option.bind (fun xr ->
+                Range.intersection ay by
+                |> Option.map (fun yr ->
+                    create xr.start yr.start xr.length yr.length
+                )
+        )
+        
     

@@ -36,4 +36,14 @@ module Facing =
     let negative axis = { axis = axis; positive = false }
     let opposite { axis = axis; positive = positive } = { axis = axis; positive = not positive }
     
+    let clockwise2d facing =
+        match facing with
+        | { axis = Axis.X; positive = positive } -> { axis = Axis.Y; positive = positive }
+        | { axis = Axis.Y; positive = positive } -> { axis = Axis.X; positive = not positive }
+        | _ -> failwith "Axis is not 2D"
     
+    let counterClockwise2d facing =
+        match facing with
+        | { axis = Axis.X; positive = positive } -> { axis = Axis.Y; positive = not positive }
+        | { axis = Axis.Y; positive = positive } -> { axis = Axis.X; positive = positive }
+        | _ -> failwith "Axis is not 2D"

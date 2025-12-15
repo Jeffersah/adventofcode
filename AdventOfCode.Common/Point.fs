@@ -31,7 +31,13 @@ module Point =
     
     let inline manhattanLen { x = x; y = y } = abs x + abs y
     let inline actualLen { x = x; y = y } = double x * double x + double y * double y
-    
+    let inline nearestCardinal point =
+        if point.x = point.y && point.x = GenericMath.ofInt 0 then
+            create (GenericMath.ofInt 1) (GenericMath.ofInt 0)
+        elif abs point.x >= abs point.y then
+            create (GenericMath.ofInt (sign point.x)) (GenericMath.ofInt 0)
+        else
+            create (GenericMath.ofInt 0) (GenericMath.ofInt (sign point.y))
     let both predicate { x = x; y = y } = predicate x && predicate y
     let either predicate { x = x; y = y } = predicate x || predicate y
     let componentwise fn a b = { x = fn a.x b.x; y = fn a.y b.y }
